@@ -1,0 +1,191 @@
+<!Doctype html>
+<!-- 声明网页的语言为中文 -->
+<html lang="zh">
+<!-- 日志查询页面 -->
+<head>
+	<!-- 规定文档的字符编码 -->
+	<meta http-equiv="content-Type" content="text/html; charset=UTF-8" />
+	<!-- 确保适当的绘制和触屏缩放 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- 设置网页渲染方式 -->
+	<meta http-equiv="x-ua-compatible" content="IE=Edge,chrome=1" />
+	<!-- 设置网页关键字 -->
+	<meta name="keywords" content="全视图 监控" />
+	<!-- 设置网页内容描述 -->
+	<meta name="description" content="分布式系统全视图监控" />
+	<meta name="author" content="Jian Sun">
+	<!-- 删除默认的苹果工具栏和菜单栏 -->
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<!-- 控制苹果状态栏显示样式 -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" /> 
+
+	<title>分布式系统全视图监控</title>
+
+	<!-- 让IE识别并支持HTML5元素 -->
+	<!--[if lt IE 9]>
+	    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+	<![endif]-->
+	<!-- 让IE9以下的浏览器支持canvas标记 -->
+	<!--[if lte IE 8]>
+		<script src="https://cdn.bootcss.com/flot/0.8.3/excanvas.min.js"></script>
+	<![endif]-->
+
+	<!-- 使用CSS外部样式表 -->
+	<!-- <link rel="stylesheet" type="text/css" href="" /> -->
+	<!-- 使用bootstrap样式表 -->
+	<link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" />
+	<!-- 使用font-awesome字体图标样式表 -->
+	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- 使用CSS内部样式表，可用于重置某些已链接的外部样式表中的样式或定义新的样式 -->
+	<!-- 此处重置了bootstrap表格中th和td的padding属性及其垂直对齐方式 -->
+	<style type="text/css">
+	.table th,
+	.table td {
+		padding: 4px;
+		vertical-align: center;
+	}
+	.card {
+		margin: 4px 0;
+	}
+	.card-header {
+		padding: 2px 4px;
+	}.card-body {
+		padding: 2px 4px;
+	}
+	.closeClass:hover {
+		outline-style: outset;
+		outline-width: 1px;
+		outline-color: #C0C0C0;
+	}
+	.closeClass:active {
+		outline-style: outset;
+		outline-width: 1px;
+		outline-color: #C0C0C0;
+	}
+	.btn-top {
+		padding: 0 3px;
+		background: transparent;
+		box-shadow: none !important;
+	}
+	.btn-sn {
+		box-shadow: none !important;
+	}
+	</style>
+</head>
+<body>
+	<!-- 顶部显示内容 -->
+	<div class="jumbotron text-center" style="margin-bottom: 0; padding: 5px 0;background-color: #F0F0F0">
+		<h1 style="font-weight: bold;text-shadow: 2px 2px 2px #FF0000">分布式系统全视图监控</h1>
+	</div>
+
+	<!-- 顶部导航栏 -->
+	<nav class="navbar navbar-expand bg-info navbar-light" style="padding: 0 0">
+		<div>
+			<span class="navbar-text" style="font-size: 30px">&nbsp;&nbsp;&nbsp;<i class="fa fa-bars fa-fw"></i>&nbsp;&nbsp;&nbsp;</span>
+		</div>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<a class="nav-link" href="mainPage.html"><span style="font-size: 30px">&nbsp;&nbsp;&nbsp;<i class="fa fa-video-camera fa-fw"></i>基本监控&nbsp;&nbsp;&nbsp;</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="agileMonitor.html"><span style="font-size: 30px">&nbsp;&nbsp;&nbsp;<i class="fa fa-video-camera fa-fw"></i>敏捷监控&nbsp;&nbsp;&nbsp;</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="logQuery.html"><span style="font-size: 30px">&nbsp;&nbsp;&nbsp;<i class="fa fa-search fa-fw"></i>日志查询&nbsp;&nbsp;&nbsp;</span></a>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- 中间显示内容 -->
+	<div class="content" style="width: 100%">
+		<div class="container-fluid" style="margin: 0;">
+			<div class="row" style="margin: 0;">
+				<div class="col-lg-12">
+					<!-- 日志查询模块moduleOne -->
+					<div class="card" id="oneCard">
+						<div class="card-header">
+							<span style="margin-top: 1px;margin-right: 0;font-size: 25px">
+								<i class="fa fa-th fa-fw"></i>日志查询
+							</span>
+							<button type="button" class="btn btn-top" style="float: right;font-size: 25px" id="oneClose">
+								<i class="fa fa-times fa-fw"></i>
+							</button>
+							<button type="button" class="btn btn-top" style="float: right;font-size: 25px" id="oneMin">
+								<i class="fa fa-minus fa-fw"></i>
+							</button>
+						</div><!-- /.card-header -->
+
+						<div class="card-body" id="oneBody" style="height: auto;overflow: auto;">
+							<div class="row" style="margin: 10px 40px">
+			                    <input type="text" class="form-control" placeholder="请输入查询关键词，多个关键词以空格分隔" style="width: 85%" id="oneKeyWord" />
+		                        <button type="button" class="btn btn-default" style="margin-left: 2%;width: 13%;font-weight: bold;" id="oneButton">
+									<i class="fa fa-search-plus fa-fw"></i>查询	
+								</button>     
+							</div>
+							<div style="margin: 5px 20px;display: none;" id="oneResult">
+								<div class="row" style="margin: 10px 20px;display: block;">
+									<span class="form-control text-center" disabled="disabled" style="margin: auto;background-color: #006666;font-weight: bold;font-size: 18px;color: white">
+										共查询到<span id="oneRowS">0</span>条日志	，当前显示<span id="oneRowSCurrent">0</span>条日志	
+									</span>
+								</div>
+								<div class="row" style="margin: 10px 10px;overflow: auto;display: block;max-height: 460px">
+									<table class="table table-bordered table-hover text-center" style="margin: auto;width: 98%; border: 2px solid #D8D8D8;table-layout: fixed;">
+						                <tbody class="tableVM" id="infoTableBody">
+						                </tbody>
+					                </table>
+								</div>
+							</div>
+						</div><!-- /.card-body -->
+					</div><!-- /.card -->
+				</div><!-- /.col-lg-12 -->
+			</div><!-- /.row -->
+
+			<div class="row" style="margin: 0;">
+				<div class="col-lg-12">
+					<!-- 操作说明模块moduleTwo -->
+					<div class="card" id="twoCard">
+					    <div class="card-header">
+							<span style="margin-top: 1px;margin-right: 0;font-size: 25px">
+								<i class="fa fa-th fa-fw"></i>操作说明
+							</span>
+							<button type="button" class="btn btn-top" style="float: right;font-size: 25px" id="twoClose">
+								<i class="fa fa-times fa-fw"></i>
+							</button>
+							<button type="button" class="btn btn-top" style="float: right;font-size: 25px" id="twoMin">
+								<i class="fa fa-minus fa-fw"></i>
+							</button>	
+						</div>
+						<!-- /.card-header -->
+
+						<div class="card-body" id="twoBody" style="height: auto;">
+							<div style="height: auto;overflow: auto;">
+								<h4 class="text-center">操作说明</h4>
+								<hr style="margin-bottom: 13px" />
+								<ul style="list-style-type:disc">
+									<li>若要查询数据，请在输入框中输入</li>
+									<li>若要查询多个关键词，请以空格分隔</li>
+									<li>此页面最多可显示100条查询到的相关日志</li>
+								</ul>
+							</div>
+						</div><!-- /.card-body -->
+					</div><!-- /.card -->
+				</div><!-- /.col-lg-12 -->
+			</div><!-- /.row -->
+		</div><!-- /.container-fluid -->
+	</div><!-- /.content -->
+
+	<!-- 底部显示内容 -->
+	<div class="jumbotron text-center" style="margin-bottom: 0; padding: 10px 0 1px;background-color: #F0F0F0">
+		<p><strong>Copyright &copy; NorthSnowJian</strong> All rights reserved.</p>
+	</div>
+
+	<!-- 需要的脚本 -->
+	<!-- jQuery -->
+	<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script> 
+	<!-- Bootstrap -->
+	<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script> 
+	<!-- 敏捷监控相关的脚本logQuery.js -->
+	<script type="text/javascript" src="logQuery.js"></script>
+</body>
+</html>
